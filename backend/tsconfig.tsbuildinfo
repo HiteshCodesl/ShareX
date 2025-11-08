@@ -1,1 +1,1 @@
-{"root":["./src/index.ts","./src/server.ts","./src/db/db.ts","./src/middleware/auth.ts","./src/routes/userroute.ts","./src/types/usertypes.ts"],"version":"5.9.3"}
+{"root":["./src/index.ts","./src/server.ts","./src/db/db.ts","./src/middleware/auth.ts","./src/routes/postroute.ts","./src/routes/userroute.ts","./src/types/posttypes.ts","./src/types/usertypes.ts"],"version":"5.9.3"}

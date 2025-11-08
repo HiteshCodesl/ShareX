@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
-export async function middleware(req: Request, res: Response, next:NextFunction){
+export async function auth(req: Request, res: Response, next:NextFunction){
     try{
        console.log("inside middleware",process.env.JWT_SECRET!);
     const token = req.headers['authorization'];

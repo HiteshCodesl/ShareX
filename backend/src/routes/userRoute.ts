@@ -5,9 +5,8 @@ import jwt from "jsonwebtoken";
 import { signUpSchema } from "../types/userTypes.js";
 import { signInSchema } from "../types/userTypes.js";
 import dotenv from "dotenv"
-import { middleware } from "../middleware/auth.js";
-import { query } from "express-validator";
-import { id } from "zod/locales";
+import { auth } from "../middleware/auth.js";
+
 
 dotenv.config();
 const router = express.Router();
@@ -77,7 +76,7 @@ router.post('/login', async(req, res) => {
    }
 })
 
-router.get('/profile', middleware, async(req, res) => {
+router.get('/profile', auth, async(req, res) => {
     //@ts-ignore
     const id = req.id;
     console.log("userId in profile", id);
