@@ -1,0 +1,11 @@
+CREATE TABLE song(
+  id SERIAL PRIMARY KEY,
+  streamId INTEGER,
+  youtubeId INTEGER,
+  title VARCHAR(30) NOT NULL,
+  addedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  addedById INTEGER NOT NULL,
+  played  BOOLEAN  DEFAULT FALSE,
+  FOREIGN KEY(streamId) REFERENCES streams(id),
+  FOREIGN KEY(addedById) REFERENCES users(id)
+);
