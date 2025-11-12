@@ -4,4 +4,8 @@ CREATE TABLE users(
     email VARCHAR(30) UNIQUE NOT NULL,
     password VARCHAR(30) NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
+
+ALTER TABLE users
+ADD COLUMN type role_enum NOT NULL 
+
