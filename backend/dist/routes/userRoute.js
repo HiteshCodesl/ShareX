@@ -21,9 +21,10 @@ router.post('/signup', async (req, res) => {
         }
         const hashedPassword = await bcrypt.hash(password, 5);
         const user = await pool.query('INSERT INTO USERS(username, email, password) VALUES($1, $2,$3) RETURNING id, username, email', [username, email, hashedPassword]);
-        if (user.rows.length > 0) {
+        if (user.rows.length < 0) {
             return res.status(401).json("failed to create a user, try again");
         }
+        return res.status(200).json({ "user signed up successfully": user.rows[0] });
     }
     catch (error) {
         return console.log("error in signup", error);

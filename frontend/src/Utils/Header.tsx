@@ -10,9 +10,20 @@ import {
   MobileNavToggle,
   MobileNavMenu,
 } from "../components/ui/resizable-navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export function Header() {
+export function NavbarDemo() {
+  const navigate = useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkToken = localStorage.getItem("token");
+    if(checkToken){
+      setIsAuthenticated(true);
+    }
+  },[])
+
   const navItems = [
     {
       name: "Features",
@@ -31,15 +42,31 @@ export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="relative flex mx-5 md:mx-auto px-4 top-10 max-w-screen-lg  rounded-full bg-[#fafafa]">
-      <Navbar>
+    <div className="relative w-full">
+      <Navbar className="bg-white">
         {/* Desktop Navigation */}
         <NavBody>
           <NavbarLogo />
           <NavItems items={navItems} />
-         
-            <NavbarButton variant="dark">Login</NavbarButton>
-      
+         <div className="flex items-center gap-4">
+          
+          { isAuthenticated ? 
+          <NavbarButton variant="dark" 
+          onClick={() => {
+            localStorage.removeItem("token");
+            setIsAuthenticated(false);
+          }}  
+          >Logout
+          </NavbarButton> 
+          : 
+          <NavbarButton variant="dark" 
+          onClick={() => navigate('/login')}  
+          >Login
+          </NavbarButton> 
+          }
+
+          </div>
+    
         </NavBody>
 
         {/* Mobile Navigation */}
@@ -68,27 +95,21 @@ export function Header() {
             ))}
             <div className="flex w-full flex-col gap-4">
               <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
+                onClick={() =>{ 
+                  setIsMobileMenuOpen(false)
+                  navigate('/login')
+                }}
+                variant="secondary"
                 className="w-full"
               >
                 Login
-              </NavbarButton>
-              <NavbarButton
-                onClick={() => setIsMobileMenuOpen(false)}
-                variant="primary"
-                className="w-full"
-              >
-                Book a call
               </NavbarButton>
             </div>
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
-      
+
+      {/* Navbar */}
     </div>
   );
 }
-
-
-

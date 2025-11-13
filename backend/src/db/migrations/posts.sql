@@ -1,9 +1,0 @@
-CREATE TABLE posts(
-    id SERIAL PRIMARY KEY,
-    title VARCHAR(50) NOT NULL,
-    content VARCHAR(50) NOT NULL,
-    likes  INTEGER ,
-    postedAt  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    userId INTEGER NOT NULL,
-    FOREIGN KEY (userId) REFERENCES users(id)
-)
