@@ -1,12 +1,16 @@
 import express from "express";
 import { connectToDb } from "./db/db.js";
-import userRoutes from "./routes/userRoute.js"
+import userRoutes from "./routes/userRoute.js";
+import streamRoute from "./routes/streamRoute.js"
 import cors from "cors"
 const app = express();
 
 connectToDb();
+
 app.use(express.json());
 app.use(cors());
+
 app.use('/api/users', userRoutes);
+app.use('/api/stream', streamRoute);
 
 export default app;

@@ -7,7 +7,6 @@ import { signInSchema } from "../types/userTypes.js";
 import dotenv from "dotenv"
 import { auth } from "../middleware/auth.js";
 
-
 dotenv.config();
 const router = express.Router();
 
