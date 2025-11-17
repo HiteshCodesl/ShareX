@@ -1,0 +1,1 @@
+{"version":3,"file":"songTypes.js","sourceRoot":"","sources":["../../src/types/songTypes.ts"],"names":[],"mappings":"AAAA,OAAO,CAAC,MAAM,KAAK,CAAA;AAEnB,MAAM,CAAC,MAAM,UAAU,GAAG,CAAC,CAAC,MAAM,CAAC;IAC/B,QAAQ,EAAE,CAAC,CAAC,MAAM,EAAE;IACpB,SAAS,EAAE,CAAC,CAAC,MAAM,EAAE;CACxB,CAAC,CAAA"}

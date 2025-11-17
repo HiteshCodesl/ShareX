@@ -11,6 +11,7 @@ router.post('/start', auth, async (req, res) => {
     //@ts-ignore
     const id = req.id;
     const { title } = req.body;
+    console.log('title', title);
     const data = await pool.query('INSERT INTO streams(title, userId) VALUES($1, $2) RETURNING id', [title, id]);
     if (!data) {
         return res.status(400).json("unable to start new stream, try again");
