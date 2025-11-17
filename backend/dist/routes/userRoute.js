@@ -24,23 +24,30 @@ router.post('/signup', async (req, res) => {
         if (user.rows.length < 0) {
             return res.status(401).json("failed to create a user, try again");
         }
-        return res.status(200).json({ "user signed up successfully": user.rows[0] });
+        const token = jwt.sign({
+            id: user.rows[0].id,
+        }, process.env.JWT_SECRET);
+        return res.status(200).json({ "token": token });
     }
     catch (error) {
         return console.log("error in signup", error);
     }
 });
 router.post('/login', async (req, res) => {
+    console.log("Incoming body", req.body);
     const parsedData = signInSchema.safeParse(req.body);
     if (!parsedData.success) {
         return res.status(401).json("wrong credentials");
     }
     const { email, password } = parsedData.data;
+    console.log('emaill', parsedData.data.email, 'pass', parsedData.data.password);
     try {
         const isUserExists = await pool.query('SELECT id, username, password FROM users WHERE email=$1', [email]);
-        if (!isUserExists) {
+        console.log("checked db user data", isUserExists);
+        if (isUserExists.rows.length === 0) {
             return res.status(404).json("user not found");
         }
+        console.log("password after checking user is exists,", isUserExists.rows[0].password);
         const checkPassword = await bcrypt.compare(password, isUserExists.rows[0].password);
         if (!checkPassword) {
             return res.status(404).json("username or password is wrong");

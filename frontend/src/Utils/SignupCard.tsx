@@ -29,7 +29,10 @@ export function SignupCard() {
        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/signup`, {email, password, username});
 
        if(response.status === 200){
-        console.log(response.data.rows[0]);
+        console.log(response.data);
+        const token = response.data.token;
+
+        localStorage.setItem("token", token);
          navigate('/');
        }
     }

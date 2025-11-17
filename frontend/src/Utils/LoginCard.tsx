@@ -18,13 +18,14 @@ import { ShineBorder } from "../components/ui/shine-border"
 import axios from "axios"
 
 export function LoginCard() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
 
     const navigate = useNavigate();
 
     const loginReq = async() => {
         console.log("req url", import.meta.env.VITE_BACKEND_URL, "user", email, password);
+        console.log("checking types", typeof email, email, typeof password, password);
        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/users/login`, {email, password});
 
        if(response.status === 200){

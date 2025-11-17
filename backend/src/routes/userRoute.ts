@@ -37,7 +37,7 @@ router.post('/signup', async (req, res) => {
             id: user.rows[0].id,
         }, process.env.JWT_SECRET! )
 
-        return res.status(200).json({ "user signed up successfully": token});
+        return res.status(200).json({ "token": token});
     } catch (error) {
         return console.log("error in signup", error)
     }
@@ -46,19 +46,22 @@ router.post('/signup', async (req, res) => {
 
 router.post('/login', async (req, res) => {
 
+    console.log("Incoming body",req.body)
     const parsedData = signInSchema.safeParse(req.body);
 
     if (!parsedData.success) {
         return res.status(401).json("wrong credentials")
     }    
+
     const { email, password } = parsedData.data;
-    console.log('passed passwrd' , password, email);
+    console.log('emaill',parsedData.data.email, 'pass',parsedData.data.password);
     try {
         const isUserExists = await pool.query('SELECT id, username, password FROM users WHERE email=$1', [email]);
         console.log("checked db user data", isUserExists);
-        if (!isUserExists) {
+        if (isUserExists.rows.length === 0) {
             return res.status(404).json("user not found");
         }
+        
         console.log("password after checking user is exists,",  isUserExists.rows[0].password);
         const checkPassword = await bcrypt.compare(password, isUserExists.rows[0].password);
 
