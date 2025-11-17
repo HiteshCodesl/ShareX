@@ -3,25 +3,38 @@ import SongList from "./SongList";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { useState } from "react";
-
-    let link = 'https://youtu.be/mbJVNt1TY5Y?si=cUEBZNJU6iVSTkyx'
-    const link2 = 'https://youtu.be/SQg2g_uelIo?si=W_ZYFttr5-Upbcc2'
-    const link3 = 'https://youtu.be/SQg2g_uelIo?si=_-EDjfkfjHjLzWZb'
-    const song = 'mbJVNt1TY5Y?si=9V7UtYXtaKFvMQbd';
+import axios from "axios";
 
 export default function Stream() {
     const [inputLink, setInputLink] = useState('');
     const [songLink, setSongLink] = useState('');
 
+    const {id} = useParams();
+    const streamId = Number(id);
+
     const addSong = () => {
-      convertLinkIntoEmbed(inputLink);
+      addYoutubeVideoWithLink(inputLink);
     }
 
-    const convertLinkIntoEmbed = (ytLink: string) => {
-      const extracted = ytLink.split('be/')
+    console.log("streamId", Number(streamId), typeof Number(streamId));
+
+    const addYoutubeVideoWithLink = async(inputLink: string) => {
+      const extracted = inputLink.split('be/')
       console.log("extracted song link",extracted[1]);
-      //backend call{}
-      setSongLink(extracted[1]);
+      const youtubeId = extracted[1];
+
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/song/add`, {streamId, youtubeId}, {
+        headers: {
+          "Authorization": localStorage.getItem('token'),
+          "Content-Type": "application/json"
+        }
+      });
+
+      if(response.status == 200){
+        const data = response.data.data.youtubeid;     
+        console.log("data", data);  
+        setSongLink(data);
+      }
     }
     
   return (
